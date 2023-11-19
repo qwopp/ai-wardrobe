@@ -6,4 +6,6 @@ AI-Wardrobe where users can uploads images of their clothing and -
 
 ```console
 $ ./bin/wardrobeinstall
+$ ./bin/wardrobedb create
+$ ./bin/wardroberun
 ```
