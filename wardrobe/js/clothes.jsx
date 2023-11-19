@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+const containerStyle = {
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "space-between",
+  gap: "20px",
+};
+
+const itemStyle = {
+  flex: "0 0 calc(25% - 20px)",
+  marginBottom: "20px",
+};
+
 export default function Clothes() {
   const [clothesData, setClothesData] = useState([]);
   const [nextLink, setNextLink] = useState(null);
@@ -37,44 +49,42 @@ export default function Clothes() {
   }, []);
 
   return (
-    <div className="clothes">
+    <div style={containerStyle}>
+      {clothesData.map((clothing) => (
+        <div
+          key={clothing.clothesid}
+          style={itemStyle}
+          onClick={() => handleClothingClick(clothing)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              handleClothingClick(clothing);
+            }
+          }}
+          role="button"
+          tabIndex={0}
+        >
+          <img
+            src={clothing.filename}
+            alt="filename"
+            style={{ cursor: "pointer", width: 200, height: 300 }}
+          />
+          {selectedClothing === clothing && (
+            <div>
+              <p>{`Article: ${clothing.article}`}</p>
+              <p>{`Clothes ID: ${clothing.clothesid}`}</p>
+              <p>{`Confidence: ${clothing.confidence}`}</p>
+              <p>{`Owner: ${clothing.owner}`}</p>
+              <p>{`URL: ${clothing.url}`}</p>
+            </div>
+          )}
+        </div>
+      ))}
       <InfiniteScroll
         dataLength={clothesData.length}
         next={loadMoreClothes}
         hasMore={nextLink !== null}
         loader={<h4>Add more clothes to your wardrobe!</h4>}
-      >
-        {clothesData.map((clothing) => (
-          <div
-            key={clothing.clothesid}
-            onClick={() => handleClothingClick(clothing)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                handleClothingClick(clothing);
-              }
-            }}
-            role="button"
-            tabIndex={0}
-          >
-            <img
-              src={clothing.filename}
-              alt="filename"
-              height={300}
-              width={300}
-              style={{ cursor: "pointer" }}
-            />
-            {selectedClothing === clothing && (
-              <div>
-                <p>{`Article: ${clothing.article}`}</p>
-                <p>{`Clothes ID: ${clothing.clothesid}`}</p>
-                <p>{`Confidence: ${clothing.confidence}`}</p>
-                <p>{`Owner: ${clothing.owner}`}</p>
-                <p>{`URL: ${clothing.url}`}</p>
-              </div>
-            )}
-          </div>
-        ))}
-      </InfiniteScroll>
+      />
     </div>
   );
 }

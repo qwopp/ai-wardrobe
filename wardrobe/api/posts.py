@@ -92,7 +92,7 @@ def get_clothing():
         print("NOT LOGGED IN")
         return not_logged()
     
-    size = flask.request.args.get('size', default=10, type=int)
+    size = flask.request.args.get('size', default=12, type=int)
     page = flask.request.args.get('page', default=0, type=int)
     m_r = get_most_recent_clothesid(logname)
     clothesid_lte = flask.request.args.get('clothesid_lte', default=m_r, type=int)
