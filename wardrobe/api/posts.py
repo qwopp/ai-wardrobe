@@ -294,8 +294,6 @@ def upload_file():
         (uuid_basename, logname, article, confidence),
     )
     connection.commit()
-
-
     return flask.jsonify({"message": "File uploaded successfully."}), 200
 
 
