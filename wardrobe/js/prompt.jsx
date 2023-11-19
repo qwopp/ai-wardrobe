@@ -2,9 +2,28 @@ import React, { useState } from "react";
 
 const promptContainerStyle = {
   width: "33.33%", // 1/3 of the screen width
-  backgroundColor: "#f0f0f0",
+  backgroundColor: "#FFDAB9", // Peach color
   padding: "20px",
   boxSizing: "border-box",
+  borderRadius: "8px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+};
+
+const inputStyle = {
+  width: "100%",
+  padding: "10px",
+  marginBottom: "10px",
+  border: "1px solid #ccc",
+  borderRadius: "4px",
+};
+
+const buttonStyle = {
+  padding: "10px 20px",
+  backgroundColor: "#FFA07A", // Lighter shade of peach for button
+  color: "#fff",
+  border: "none",
+  borderRadius: "4px",
+  cursor: "pointer",
 };
 
 export default function Prompt() {
@@ -39,12 +58,14 @@ export default function Prompt() {
 
   return (
     <div style={promptContainerStyle}>
+      <h1> Enter a prompt for an outfit!</h1>
       <input
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
+        style={inputStyle}
       />
-      <button type="button" onClick={sendDataToBackend}>
+      <button type="button" onClick={sendDataToBackend} style={buttonStyle}>
         Submit
       </button>
       <div>
