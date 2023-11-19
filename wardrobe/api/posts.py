@@ -163,6 +163,7 @@ def prompt_to_output():
         (logname,),
     )
     dats2 = cur.fetchall()
+    # print(prompt)
     # print(dats2)
     # Combine articles + prompt input into GPT submission
 
