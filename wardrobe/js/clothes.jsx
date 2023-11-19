@@ -4,6 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 export default function Clothes() {
   const [clothesData, setClothesData] = useState([]);
   const [nextLink, setNextLink] = useState(null);
+  const [selectedClothing, setSelectedClothing] = useState(null);
 
   const loadMoreClothes = () => {
     if (nextLink) {
@@ -11,7 +12,6 @@ export default function Clothes() {
         .then((response) => response.json())
         .then((data) => {
           if (data.results && data.results.length > 0) {
-            // Append the new clothes to the existing clothesData
             setClothesData([...clothesData, ...data.results]);
             setNextLink(data.next);
           }
@@ -20,8 +20,11 @@ export default function Clothes() {
     }
   };
 
+  const handleClothingClick = (clothing) => {
+    setSelectedClothing(clothing === selectedClothing ? null : clothing);
+  };
+
   useEffect(() => {
-    // Fetch clothes from the API endpoint
     fetch("/api/v1/clothing/")
       .then((response) => response.json())
       .then((data) => {
@@ -39,23 +42,36 @@ export default function Clothes() {
         dataLength={clothesData.length}
         next={loadMoreClothes}
         hasMore={nextLink !== null}
-        loader={<h4>Loading...</h4>}
+        loader={<h4>Add more clothes to your wardrobe!</h4>}
       >
         {clothesData.map((clothing) => (
-          <div key={clothing.clothesid}>
-            <p>{`Article: ${clothing.article}`}</p>
-            <p>{`Clothes ID: ${clothing.clothesid}`}</p>
-            <p>{`Confidence: ${clothing.confidence}`}</p>
+          <div
+            key={clothing.clothesid}
+            onClick={() => handleClothingClick(clothing)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                handleClothingClick(clothing);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+          >
             <img
               src={clothing.filename}
               alt="filename"
-              height={100}
-              width={100}
+              height={300}
+              width={300}
+              style={{ cursor: "pointer" }}
             />
-            <p>{`Filename: ${clothing.filename}`}</p>
-            <p>{`Owner: ${clothing.owner}`}</p>
-            <p>{`URL: ${clothing.url}`}</p>
-            {/* Add other details or formatting as needed */}
+            {selectedClothing === clothing && (
+              <div>
+                <p>{`Article: ${clothing.article}`}</p>
+                <p>{`Clothes ID: ${clothing.clothesid}`}</p>
+                <p>{`Confidence: ${clothing.confidence}`}</p>
+                <p>{`Owner: ${clothing.owner}`}</p>
+                <p>{`URL: ${clothing.url}`}</p>
+              </div>
+            )}
           </div>
         ))}
       </InfiniteScroll>
