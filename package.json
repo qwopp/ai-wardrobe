@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "wardrobe front end",
   "main": "wardrobe/js/main.jsx",
-  "author": "awdeorio",
+  "author": "jamd",
   "license": "MIT",
   "repository": {},
   "devDependencies": {

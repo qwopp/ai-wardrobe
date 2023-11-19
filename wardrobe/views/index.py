@@ -187,7 +187,7 @@ def del_file(filename):
 
 @wardrobe.app.route('/accounts/', methods=['POST'])
 def account():
-    """B DOCSTIRNG MOMENT."""
+    """Create account."""
     logname = flask.session.get('username')
     operation = flask.request.form.get('operation')
     redirection = flask.request.args.get('target', '/')
