@@ -9,3 +9,37 @@ body {
     display: none;
 }
 
+/* Clothes.css */
+.clothes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Four columns */
+    gap: 20px;
+    /* Gap between grid items */
+}
+
+.clothing-item {
+    position: relative;
+}
+
+/* Selected clothing item style */
+.clothing-item.selected {
+    border: 2px solid #333;
+}
+
+/* Other styling for clothing items, adjust as needed */
+.clothing-item img {
+    cursor: pointer;
+    max-width: 100%;
+}
+
+/* Styling for expanded view of selected clothing */
+.clothing-item.selected>div {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}

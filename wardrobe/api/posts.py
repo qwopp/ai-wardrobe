@@ -17,12 +17,13 @@ def get_most_recent_clothesid(logname):
         ORDER BY clothing.clothesid DESC
         LIMIT 1
         """,
-        (logname, logname),
+        (logname,),
     )
     m_r = cur.fetchone()
     if m_r:
         return m_r['clothesid']
     return 0
+
 
 def not_logged():
     """Return 403 if user is not logged in."""
@@ -93,8 +94,11 @@ def get_clothing():
     
     size = flask.request.args.get('size', default=10, type=int)
     page = flask.request.args.get('page', default=0, type=int)
-    clothesid_lte = flask.request.args.get('clothesid_lte')
-    
+    m_r = get_most_recent_clothesid(logname)
+    clothesid_lte = flask.request.args.get('clothesid_lte', default=m_r, type=int)
+    newp2 = flask.request.full_path
+    if newp2.endswith('?'):
+        newp2 = newp2[:-1]
     if size <= 0 or page < 0 or (clothesid_lte is not None and clothesid_lte < 0):
         context = {
             "message": "Bad Request",
@@ -120,7 +124,7 @@ def get_clothing():
     next_page_url = ""
     if len(clothes_data) >= size:
         npu = "/api/v1/clothing/?size={}&page={}&clothesid_lte={}"
-        next_page_url = npu.format(size, page + 1, clothes_data[-1]['clothesid'])
+        next_page_url = npu.format(size, page + 1, clothesid_lte)
     response = {
         "next": next_page_url,
         "results": [
@@ -134,7 +138,7 @@ def get_clothing():
             }
             for clothing in clothes_data
         ],
-        "url": flask.request.full_path,
+        "url": newp2,
     }
     return flask.jsonify(**response)
 
