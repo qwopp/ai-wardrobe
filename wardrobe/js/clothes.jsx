@@ -72,10 +72,8 @@ export default function Clothes() {
           {selectedClothing === clothing && (
             <div>
               <p>{`Article: ${clothing.article}`}</p>
-              <p>{`Clothes ID: ${clothing.clothesid}`}</p>
               <p>{`Confidence: ${clothing.confidence}`}</p>
-              <p>{`Owner: ${clothing.owner}`}</p>
-              <p>{`URL: ${clothing.url}`}</p>
+              <p>{`Clothes ID: ${clothing.clothesid}`}</p>
             </div>
           )}
         </div>

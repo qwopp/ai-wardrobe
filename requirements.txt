@@ -34,7 +34,7 @@ httpcore==1.0.2
 httpx==0.25.1
 idna==3.4
 iniconfig==2.0.0
--e git+ssh://git@github.com/qwopp/ai-wardrobe.git@9d21a65832f9a2bd5de3f2d1a9b698b79ce09ffb#egg=insta485
+-e git+ssh://git@github.com/qwopp/ai-wardrobe.git@a0151285f60f29da8fa5189afcc705c4b1e66b3b
 isort==5.12.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
@@ -86,7 +86,7 @@ tomlkit==0.12.1
 tqdm==4.66.1
 typing_extensions==4.8.0
 urllib3==2.0.5
--e git+ssh://git@github.com/qwopp/ai-wardrobe.git@9d21a65832f9a2bd5de3f2d1a9b698b79ce09ffb#egg=wardrobe
+-e git+ssh://git@github.com/qwopp/ai-wardrobe.git@a0151285f60f29da8fa5189afcc705c4b1e66b3b#egg=wardrobe
 Werkzeug==2.3.7
 wrapt==1.14.1
 yarl==1.9.2
