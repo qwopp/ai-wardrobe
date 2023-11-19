@@ -3,6 +3,7 @@
 import hashlib
 import flask
 import wardrobe
+import os
 
 
 def get_most_recent_clothesid(logname):
@@ -125,7 +126,7 @@ def get_clothing():
         "results": [
             {
                 "clothesid": clothing['clothesid'],
-                "filename": '/uploads/' + clothing['filename'],
+                "filename": "/uploads/" + clothing['filename'],
                 "owner": clothing['owner'],
                 "article": clothing['article'],
                 "confidence": clothing['confidence'],

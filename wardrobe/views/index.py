@@ -205,6 +205,18 @@ def account():
     return flask.redirect(redirection)
 
 
+@wardrobe.app.route('/uploads/<filename>')
+def serve_image(filename):
+    """B Pput it on a tray."""
+    if 'username' not in flask.session:
+        flask.abort(403)
+    s_c = wardrobe.app.config["UPLOAD_FOLDER"]
+    if not os.path.isfile(os.path.join(s_c, filename)):
+        flask.abort(404)
+    f_t = filename
+    return flask.send_from_directory(wardrobe.app.config["UPLOAD_FOLDER"], f_t)
+
+
 def login_user(connection):
     """Login user."""
     username = flask.request.form.get('username')

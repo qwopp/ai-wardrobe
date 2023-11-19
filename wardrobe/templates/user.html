@@ -21,7 +21,7 @@
     {% if logname == user_info.username %}
       <form action="/posts/?target={{ url_for('show_user', user_url_slug=user_info.username)}}" method="post" enctype="multipart/form-data">
       <input type="file" name="file" accept="image/*" required/>
-      <input type="submit" name="create_post" value="upload new clothes"/>
+      <input type="submit" name="create_post" value="Upload PFP"/>
       <input type="hidden" name="operation" value="create"/>
       </form>
     {% endif %}
