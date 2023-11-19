@@ -11,7 +11,11 @@
   <div class = "logoclass">
     <img src="{{ url_for('static', filename='images/logo.png')}}" alt="Wardrobe logo" width="200" height="200">
   </div>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}">
-  </script>
+  
+  <div id="reactEntry">
+    Loading ...
+  </div>
+  <!-- Load JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
 </body>
 </html>

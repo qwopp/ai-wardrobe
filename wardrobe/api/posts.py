@@ -120,13 +120,12 @@ def get_clothing():
     if len(clothes_data) >= size:
         npu = "/api/v1/clothing/?size={}&page={}&clothesid_lte={}"
         next_page_url = npu.format(size, page + 1, clothes_data[-1]['clothesid'])
-    
     response = {
         "next": next_page_url,
         "results": [
             {
                 "clothesid": clothing['clothesid'],
-                "filename": clothing['filename'],
+                "filename": '/uploads/' + clothing['filename'],
                 "owner": clothing['owner'],
                 "article": clothing['article'],
                 "confidence": clothing['confidence'],
