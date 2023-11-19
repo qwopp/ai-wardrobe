@@ -47,6 +47,7 @@ export default function Prompt() {
 
       <div>
         {imageUrls.map((imageUrl, index) => (
+          // eslint-disable-next-line react/no-array-index-key
           <img key={index} src={imageUrl} alt="" />
         ))}
       </div>

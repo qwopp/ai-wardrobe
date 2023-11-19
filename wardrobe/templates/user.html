@@ -9,6 +9,9 @@
     <img src="{{ url_for('static', filename='images/logo.png')}}" alt="Wardrobe logo" width="200" height="200">
     <a href="/">Home page</a>
   </div>
+  <div id="reactEntry"></div>
+  <!-- Load JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
     <h1>{{ user_info.username }}</h1>
     {% if logname == user_info.username %}
         <a href="/accounts/edit/">Edit profile</a>

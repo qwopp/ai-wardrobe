@@ -5,16 +5,13 @@
   <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <div class = "welcome user">
-    <a href="/users/{{logname}}/">{{logname}}</a>
-  </div>
+  <div id="indexComponent"></div>
+  <a href="/users/{{logname}}/">{{logname}}</a>
   <div class = "logoclass">
     <img src="{{ url_for('static', filename='images/logo.png')}}" alt="Wardrobe logo" width="200" height="200">
   </div>
   
-  <div id="reactEntry">
-    
-  </div>
+  <div id="reactEntry"></div>
   <!-- Load JavaScript -->
   <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
 </body>
