@@ -306,6 +306,12 @@ def edit_user_account(connection, logname):
         connection.commit()
 
 
+def upload_clothes(connection, logname):
+    """Upload clothes"""
+    image_upload = flask.request.form.get('image_upload')
+
+
+
 def update_password(connection, logname):
     """Update password"""
     op1 = flask.request.form.get('password')
