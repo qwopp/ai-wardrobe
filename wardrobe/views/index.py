@@ -11,14 +11,6 @@ import pathlib
 import flask
 import arrow
 import wardrobe
-import matplotlib.pyplot as plt
-import numpy as np
-import PIL
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras.models import Sequential
-import pathlib
 
 def get_user_info(connection, username):
     """B ALL user info from username."""
@@ -324,34 +316,6 @@ def edit_user_account(connection, logname):
             (fullname, email, logname),
         )
         connection.commit()
-
-
-@wardrobe.app.route('/test/')
-def upload_clothes():
-
-    """Upload clothes"""
-    #image_filename = flask.request.form.get('image_upload')
-    img = flask.url_for('static', filename='images/clothes')
-    img_height = 96
-    img_width = 96
-    # verify logged in user
-    model = tf.keras.models.load_model('my_model_RMSprop.keras')
-    new_image_path = pathlib.Path('./TestImages/IMG_3150').with_suffix('.jpg')
-    img = tf.keras.utils.load_img(
-    new_image_path, target_size=(img_height, img_width)
-    )
-    img_array = tf.keras.utils.img_to_array(img)
-    img_array = tf.expand_dims(img_array, 0) # Create a batch
-    predictions = model.predict(img_array)
-    score = tf.nn.softmax(predictions[0])
-    class_names = ['black_dress', 'black_pants', 'black_shirt', 'black_shoes', 'black_shorts', 'black_suit', 'blue_dress', 'blue_pants', 'blue_shirt', 'blue_shoes', 'blue_shorts', 'brown_hoodie', 'brown_pants', 'brown_shoes', 'green_pants', 'green_shirt', 'green_shoes', 'green_shorts', 'green_suit', 'pink_hoodie', 'pink_pants', 'pink_skirt', 'red_dress', 'red_hoodie', 'red_pants', 'red_shirt', 'red_shoes', 'silver_shoes', 'silver_skirt', 'white_dress', 'white_pants', 'white_shoes', 'white_shorts', 'white_suit', 'yellow_dress', 'yellow_shorts', 'yellow_skirt']
-    print(
-        "This image most likely belongs to {} with a {:.2f} percent confidence."
-        .format(class_names[np.argmax(score)], 100 * np.max(score))
-    )
-
-
-
 
 
 

@@ -1,59 +1,55 @@
 import React, { useState } from "react";
+import { FileUploader } from "react-drag-drop-files";
 
-export default function FileUpload() {
-  const [files, setFiles] = useState([]);
+const fileTypes = ["JPG", "PNG"];
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files);
-    setFiles([...files, ...droppedFiles]);
+function DragDrop() {
+  const [file, setFile] = useState(null);
+
+  const handleFileUpload = async () => {
+    if (!file) {
+      console.log("No file selected.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/v1/upload/", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log("File uploaded successfully!");
+        // Perform actions after successful upload
+      } else {
+        console.error("Failed to upload file.");
+        // Handle error scenarios
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      // Handle other errors
+    }
   };
 
-  const handleInputChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    setFiles([...files, ...selectedFiles]);
-  };
-
-  const handleUpload = () => {
-    // Implement your file upload logic here using the 'files' state
-    // For instance, send 'files' to an API endpoint
-    console.log("Uploading files:", files);
-    // Reset files state after uploading
-    setFiles([]);
+  const handleFileChange = (uploadedFile) => {
+    setFile(uploadedFile);
   };
 
   return (
-    <div
-      style={{
-        border: "2px dashed #aaa",
-        borderRadius: "5px",
-        padding: "20px",
-        textAlign: "center",
-      }}
-      onDrop={handleDrop}
-      onDragOver={(e) => e.preventDefault()}
-    >
-      <input
-        type="file"
-        multiple
-        style={{ display: "none" }}
-        onChange={handleInputChange}
-        ref={(fileInput) => (this.fileInput = fileInput)}
+    <div>
+      <FileUploader
+        handleChange={handleFileChange}
+        name="file"
+        types={fileTypes}
       />
-      <p>Drag and drop files here or</p>
-      <button onClick={() => this.fileInput.click()}>Select Files</button>
-      <button onClick={handleUpload}>Upload</button>
-
-      {files.length > 0 && (
-        <div style={{ marginTop: "20px" }}>
-          <h4>Files to upload:</h4>
-          <ul>
-            {files.map((file, index) => (
-              <li key={index}>{file.name}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <button type="button" onClick={handleFileUpload}>
+        Upload File
+      </button>
     </div>
   );
 }
+
+export default DragDrop;

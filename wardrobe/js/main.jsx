@@ -22,7 +22,7 @@ if (document.getElementById("indexComponent")) {
 } else {
   root.render(
     <StrictMode>
-      <h1>HECK!</h1>>
+      <FileUpload />
     </StrictMode>
   );
 }

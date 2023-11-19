@@ -49,7 +49,7 @@ export default function Prompt() {
       </button>
       <div>
         {imageUrls.map((imageUrl) => (
-          <img key={imageUrl} src={imageUrl} alt="" width="100" height="100" />
+          <img key={imageUrl} src={imageUrl} alt="" width="150" height="150" />
         ))}
       </div>
     </div>
