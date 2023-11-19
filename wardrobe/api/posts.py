@@ -260,8 +260,8 @@ def upload_file():
     file = flask.request.files['file']
     if file.filename == '':
         return flask.jsonify({"message": "No file selected."}), 400
-    img_height = 96
-    img_width = 96
+    img_height = 180
+    img_width = 180
     # verify logged in user
     filename = file.filename
     stem = uuid.uuid4().hex
@@ -271,32 +271,25 @@ def upload_file():
         flask.abort(400)
     path = wardrobe.app.config["UPLOAD_FOLDER"] / uuid_basename
     file.save(path)
-
-    print(os.getcwd())
-    tf.keras.models.load_model('')
-    
-    model = tf.keras.models.load_model('/wardrobe/static/machine_model/my_model_RMSprop.keras')
-    new_image_path = pathlib.Path('./TestImages/IMG_3150').with_suffix('.jpg')
+    model = tf.keras.models.load_model('my_model_RMSprop.keras')    
+    new_image_path = path
     img = tf.keras.utils.load_img(
-    new_image_path, target_size=(img_height, img_width)
+        new_image_path, target_size=(img_height, img_width)
     )
     img_array = tf.keras.utils.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0) # Create a batch
     predictions = model.predict(img_array)
     score = tf.nn.softmax(predictions[0])
     class_names = ['black_dress', 'black_pants', 'black_shirt', 'black_shoes', 'black_shorts', 'black_suit', 'blue_dress', 'blue_pants', 'blue_shirt', 'blue_shoes', 'blue_shorts', 'brown_hoodie', 'brown_pants', 'brown_shoes', 'green_pants', 'green_shirt', 'green_shoes', 'green_shorts', 'green_suit', 'pink_hoodie', 'pink_pants', 'pink_skirt', 'red_dress', 'red_hoodie', 'red_pants', 'red_shirt', 'red_shoes', 'silver_shoes', 'silver_skirt', 'white_dress', 'white_pants', 'white_shoes', 'white_shorts', 'white_suit', 'yellow_dress', 'yellow_shorts', 'yellow_skirt']
-    print(
-        "This image most likely belongs to {} with a {:.2f} percent confidence."
-        .format(class_names[np.argmax(score)], 100 * np.max(score))
-    )
-
-
-
+    article = class_names[np.argmax(score)]
+    confidence = 100 * np.max(score)
+    print(article)
+    print(confidence)
     connection = wardrobe.model.get_db()
     connection.execute(
         """
         INSERT INTO clothing (filename, owner, article, confidence)
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?)
         """,
         (uuid_basename, logname, article, confidence),
     )
