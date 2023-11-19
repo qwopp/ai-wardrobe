@@ -1,0 +1,21 @@
+#!/bin/bash
+# wardroberun
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+
+DATABASE_PATH="var/wardrobe.sqlite3"
+# check fo error
+if [ ! -e "$DATABASE_PATH" ]; then
+  echo "Error: can't find database $DATABASE_PATH"
+  echo "Try: ./bin/wardrobedb create"
+  exit 1
+fi
+
+echo "+ npx webpack --watch &"
+npx webpack --watch &
+
+# Run the dev serveron port 8000 :P
+echo "+ flask --app wardrobe --debug run --host 0.0.0.0 --port 8000"
+flask --app wardrobe --debug run --host 0.0.0.0 --port 8000

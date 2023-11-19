@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>wardrobe</title>
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div>
+    <img src="{{ url_for('static', filename='images/logo.png')}}" alt="Wardrobe logo" width="50" height="50">
+    <a href="/">Home page</a>
+    <a href="/users/{{logname}}/">{{logname}}</a>
+  </div>
+<h2>{{logname}}</h2>
+<form action="/accounts/?target={{url_for('create_account')}}" method="post" enctype="multipart/form-data">
+  <input type="submit" name="delete" value="confirm delete account"/>
+  <input type="hidden" name="operation" value="delete"/>
+</form>
+</body>
+</html>

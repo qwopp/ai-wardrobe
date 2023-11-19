@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>wardrobe</title>
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div>
+    <img src="{{ url_for('static', filename='images/logo.png')}}" alt="Wardrobe logo" width="50" height="50">
+    <a href="/">Home page</a>
+    <a href="/users/{{logname}}/">{{logname}}</a>
+  </div>
+    <h1>{{ user_info.username }}</h1>
+    {% if logname == user_info.username %}
+        <a href="/accounts/edit/">Edit profile</a>
+        <form action="/accounts/logout/" method="post" enctype="multipart/form-data">
+        <input type="submit" name="logout" value="Logout"/>
+        </form>
+    {% else %}
+        {% if is_following %}
+            <p>Following</p>
+            <form action="/following/?target={{ url_for('show_user', user_url_slug=user_info.username)}}" method="post" enctype="multipart/form-data">
+            <input type="submit" name="unfollow" value="unfollow"/>
+            <input type="hidden" name="username" value="{{user_info.username}}"/>
+            <input type="hidden" name="operation" value="unfollow"/>
+            </form>
+        {% else %}
+            <p>Not Following</p>
+            <form action="/following/?target={{ url_for('show_user', user_url_slug=user_info.username)}}" method="post" enctype="multipart/form-data">
+            <input type="submit" name="follow" value="follow"/>
+            <input type="hidden" name="username" value="{{user_info.username}}"/>
+            <input type="hidden" name="operation" value="follow"/>
+            </form>
+        {% endif %}
+    {% endif %}
+    <h3>{{user_info.fullname}}</h3>
+    {% if logname == user_info.username %}
+      <form action="/posts/?target={{ url_for('show_user', user_url_slug=user_info.username)}}" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept="image/*" required/>
+      <input type="submit" name="create_post" value="upload new post"/>
+      <input type="hidden" name="operation" value="create"/>
+      </form>
+    {% endif %}
+    <p>No posts yet.</p>
+</body>
+</html>

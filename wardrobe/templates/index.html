@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>wardrobe</title>
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div>
+    <img src="{{ url_for('static', filename='images/logo.png')}}" alt="Wardrobe logo" width="50" height="50">
+    <a href="/">Home page</a>
+    <a href="/users/{{logname}}/">{{logname}}</a>
+  </div>
+  <div id="reactEntry">
+    Loading ...
+  </div>
+  <!-- Load JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
+</body>
+</html>
