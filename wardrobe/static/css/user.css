@@ -1,0 +1,66 @@
+body {
+    background-color: #FFE5B4;
+    /* Peach color background */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #FFDAB9;
+    /* Lighter peach color */
+}
+
+.logo img {
+    width: 300px;
+    height: 300px;
+}
+
+.logo a {
+    text-decoration: none;
+    color: #333;
+    /* Text color */
+    font-weight: bold;
+}
+
+.user-info {
+    text-align: center;
+    margin-top: 50px;
+    color: #333;
+    /* Text color */
+    font-weight: bold;
+}
+
+.user-info h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.user-info h3 {
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.user-info a {
+    text-decoration: none;
+    color: #333;
+    /* Text color */
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.user-info form {
+    margin-top: 20px;
+}
+
+.user-info input[type="file"] {
+    margin-right: 10px;
+}
+
+.user-info p {
+    margin-top: 20px;
+}

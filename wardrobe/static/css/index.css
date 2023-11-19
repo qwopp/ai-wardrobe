@@ -1,6 +1,105 @@
+/* Custom styles for the peach-themed website */
 body {
-    background-color: rgb(255, 255, 255);
+    background-color: #f7e7d8;
+    /* Light peach background */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    /* Text color */
 }
+
+/* Logo container styles */
+.logoclass {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* User link styles */
+a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #ff7f50;
+    /* Coral color for links */
+    margin-bottom: 20px;
+}
+
+/* Main content area */
+#indexComponent {
+    padding: 20px;
+    background-color: #fff;
+    /* White background for main content */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Soft shadow effect */
+}
+
+/* React entry container */
+#reactEntry {
+    margin-top: 20px;
+}
+
+/* Box styles */
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+    display: none;
+}
+
+/* Clothes section styles */
+.clothes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.clothing-item {
+    position: relative;
+    background-color: #ffccbb;
+    /* Light peach background for clothing items */
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    /* Soft shadow effect */
+    transition: transform 0.3s ease-in-out;
+}
+
+.clothing-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+.clothing-item.selected {
+    transform: scale(1.05);
+    /* Scale up the selected item slightly */
+}
+
+.clothing-item.selected>div {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 10px 0;
+    background-color: #ffccbb;
+    /* Light peach background for footer */
+    border-top: 1px solid #ddd;
+}
+
+/* Additional styles can be added or adjusted for specific elements */
 
 .box__dragndrop,
 .box__uploading,
@@ -42,4 +141,11 @@ body {
     padding: 10px;
     background-color: #fff;
     border: 1px solid #ccc;
+}
+
+.welcome-message a {
+    text-decoration: none;
+    color: #333;
+    /* Text color */
+    font-weight: bold;
 }

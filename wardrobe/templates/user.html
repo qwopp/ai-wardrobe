@@ -1,33 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>wardrobe</title>
+  <title>Wardrobe</title>
   <link href="{{ url_for('static', filename='css/user.css') }}" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <div>
-    <img src="{{ url_for('static', filename='images/logo.png')}}" alt="Wardrobe logo" width="200" height="200">
-    <a href="/">Home page</a>
-  </div>
-  <div id="reactEntry"></div>
-  <!-- Load JavaScript -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
-    <h1>{{ user_info.username }}</h1>
-    {% if logname == user_info.username %}
+  <div class="header">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png')}}" alt="Wardrobe logo" width="200" height="200">
+      <a href="/">Home page</a>
+      <h1>{{ user_info.username }}</h1>
+      {% if logname == user_info.username %}
         <a href="/accounts/edit/">Edit profile</a>
         <form action="/accounts/logout/" method="post" enctype="multipart/form-data">
-        <input type="submit" name="logout" value="Logout"/>
+          <input type="submit" name="logout" value="Logout"/>
         </form>
-    {% else %}
-    {% endif %}
-    <h3>{{user_info.fullname}}</h3>
-    {% if logname == user_info.username %}
-      <form action="/posts/?target={{ url_for('show_user', user_url_slug=user_info.username)}}" method="post" enctype="multipart/form-data">
-      <input type="file" name="file" accept="image/*" required/>
-      <input type="submit" name="create_post" value="Upload PFP"/>
-      <input type="hidden" name="operation" value="create"/>
-      </form>
-    {% endif %}
-    <p>No posts yet.</p>
+      {% endif %}
+      <h3>{{ user_info.fullname }}</h3>
+    </div>
+    
+  </div>
+
+
+  <!-- Load JavaScript -->
+  <div id="reactEntry"></div>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
 </body>
 </html>
