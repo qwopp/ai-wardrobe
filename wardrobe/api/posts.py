@@ -17,6 +17,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
 import pathlib
+import os
 
 
 def get_most_recent_clothesid(logname):
@@ -271,9 +272,10 @@ def upload_file():
     path = wardrobe.app.config["UPLOAD_FOLDER"] / uuid_basename
     file.save(path)
 
-
-
-    model = tf.keras.models.load_model('my_model_RMSprop.keras')
+    print(os.getcwd())
+    tf.keras.models.load_model('')
+    
+    model = tf.keras.models.load_model('/wardrobe/static/machine_model/my_model_RMSprop.keras')
     new_image_path = pathlib.Path('./TestImages/IMG_3150').with_suffix('.jpg')
     img = tf.keras.utils.load_img(
     new_image_path, target_size=(img_height, img_width)
@@ -287,7 +289,7 @@ def upload_file():
         "This image most likely belongs to {} with a {:.2f} percent confidence."
         .format(class_names[np.argmax(score)], 100 * np.max(score))
     )
-    
+
 
 
     connection = wardrobe.model.get_db()
