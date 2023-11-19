@@ -104,7 +104,8 @@ def get_clothing():
     connection = wardrobe.model.get_db()
     cur = connection.execute(
         """
-        SELECT clothing.clothesid
+        SELECT clothing.clothesid, clothing.filename, clothing.owner, 
+        clothing.article, clothing.confidence
         FROM clothing
         WHERE clothing.owner = ?
         AND (clothing.clothesid <= ? OR ? IS NULL)
@@ -113,65 +114,28 @@ def get_clothing():
         """,
         (logname, clothesid_lte, clothesid_lte, size, page * size),
     )
-    clothes_ids = cur.fetchall()
+    clothes_data = cur.fetchall()
     
     next_page_url = ""
-    if len(clothes_ids) >= size:
+    if len(clothes_data) >= size:
         npu = "/api/v1/clothing/?size={}&page={}&clothesid_lte={}"
-        next_page_url = npu.format(size, page + 1, clothes_ids[-1]['clothesid'])
+        next_page_url = npu.format(size, page + 1, clothes_data[-1]['clothesid'])
     
     response = {
         "next": next_page_url,
         "results": [
-            {"clothesid": clothes_id['clothesid'],
-             "url": f"/api/v1/clothing/{clothes_id['clothesid']}/"}
-            for clothes_id in clothes_ids
+            {
+                "clothesid": clothing['clothesid'],
+                "filename": clothing['filename'],
+                "owner": clothing['owner'],
+                "article": clothing['article'],
+                "confidence": clothing['confidence'],
+                "url": f"/api/v1/clothing/{clothing['clothesid']}/"
+            }
+            for clothing in clothes_data
         ],
         "url": flask.request.full_path,
     }
     return flask.jsonify(**response)
 
 
-
-@wardrobe.app.route('/api/v1/clothes/<int:clothesid_url_slug>/', methods=["GET"])
-def get_cloth(clothesid_url_slug):
-    """Return details of cloth from clothesid."""
-    logname = check_logged()
-    if logname == "notloggedin":
-        print("NOT LOGGED IN")
-        return not_logged()
-    print("ACCOUNT IS LOGGED IN")
-    # KEEP ABOVE FOR EVERY FUNCTION!
-    connection = wardrobe.model.get_db()
-    # Check if the cloth with clothesid exists
-    cur = connection.execute(
-        """
-        SELECT *
-        FROM clothing
-        WHERE clothesid = ?
-        """,
-        (clothesid_url_slug,),
-    )
-    cloth4 = cur.fetchone()
-    if cloth4 is None:
-        context4 = {
-            "message": "Not Found",
-            "status_code": 404
-        }
-        return flask.jsonify(**context4), 404
-    cur = connection.execute(
-        """
-        RETURN ATTRIBUTES OF CLOTHING
-        """,
-        (clothesid_url_slug,),
-    )
-    clothes_data = cur.fetchone()
-    clothes = {
-        "owner": clothes_data["owner"],
-        "filename": clothes_data["filename"],
-        "article": clothes_data["article"],
-        "confidence": clothes_data["confidence"],
-        "clothesid": clothesid_url_slug,
-        "url": f"/api/v1/clothes/{clothesid_url_slug}/",
-    }
-    return flask.jsonify(**clothes)
