@@ -10,28 +10,46 @@ const promptContainerStyle = {
 
 export default function Prompt() {
   const [inputValue, setInputValue] = useState("");
+  const [imageUrls, setImageUrls] = useState([]);
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  };
+  const sendDataToBackend = async () => {
+    try {
+      const response = await fetch("/api/v1/prompt/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ inputData: inputValue }),
+      });
 
-  const handleSubmit = () => {
-    alert(`You entered: ${inputValue}`);
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Received response from backend:", responseData);
+        if (responseData.imageFiles && responseData.imageFiles.length > 0) {
+          setImageUrls(responseData.imageFiles);
+        }
+      }
+    } catch (error) {
+      console.error("Error sending data to backend:", error);
+    }
   };
 
   return (
     <div style={promptContainerStyle}>
-      <h2>Prompt</h2>
       <input
         type="text"
         value={inputValue}
-        onChange={handleInputChange}
-        placeholder="Enter something..."
-        style={{ width: "100%", marginBottom: "10px" }}
+        onChange={(e) => setInputValue(e.target.value)}
       />
-      <button type="button" onClick={handleSubmit}>
+      <button type="button" onClick={sendDataToBackend}>
         Submit
       </button>
+
+      <div>
+        {imageUrls.map((imageUrl, index) => (
+          <img key={index} src={imageUrl} alt="" />
+        ))}
+      </div>
     </div>
   );
 }

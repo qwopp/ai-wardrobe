@@ -143,3 +143,51 @@ def get_clothing():
     return flask.jsonify(**response)
 
 
+@wardrobe.app.route('/api/v1/prompt/', methods=["POST"])
+def prompt_to_output():
+    logname = check_logged()
+    data = flask.request.json
+    prompt = data.get('inputData')
+    
+    # Get prompt input
+    
+    # Get all articles from DB
+    connection = wardrobe.model.get_db()
+    cur = connection.execute(
+        """
+        SELECT clothing.article
+        FROM clothing
+        WHERE clothing.owner = ?
+        ORDER BY clothing.clothesid DESC;
+        """,
+        (logname,),
+    )
+    dats2 = cur.fetchall()
+    # print(dats2)
+    # Combine articles + prompt input into GPT submission
+
+    # Receive GPT output
+
+    # Parse GPT output
+
+    # GET JSON which is a list of fileImages.
+
+    # Send JSON of outfit back to React side!
+
+
+
+    image_files = [
+        "https://example.com/image1.jpg",
+        "https://example.com/image2.jpg",
+        # ... more image URLs
+    ]
+    response_data = {
+            "imageFiles": image_files
+        }
+    return flask.jsonify(response_data), 200
+
+
+
+
+
+
