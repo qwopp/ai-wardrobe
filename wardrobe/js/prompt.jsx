@@ -25,7 +25,11 @@ export default function Prompt() {
         const responseData = await response.json();
         console.log("Received response from backend:", responseData);
         if (responseData.imageFiles && responseData.imageFiles.length > 0) {
+          // Clear the previous imageUrls before updating with new ones
           setImageUrls(responseData.imageFiles);
+        } else {
+          // If no images are returned, reset the imageUrls state to an empty array
+          setImageUrls([]);
         }
       }
     } catch (error) {
@@ -43,7 +47,6 @@ export default function Prompt() {
       <button type="button" onClick={sendDataToBackend}>
         Submit
       </button>
-
       <div>
         {imageUrls.map((imageUrl) => (
           <img key={imageUrl} src={imageUrl} alt="" width="100" height="100" />

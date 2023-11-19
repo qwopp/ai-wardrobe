@@ -173,8 +173,8 @@ def prompt_to_output():
         dats_prompt += x['article'] + ","
     #print(dats_prompt)
     #print(gpt_prompt)
-    print(dats_prompt)
-    print(gpt_prompt)
+    #print(dats_prompt)
+    #print(gpt_prompt)
     try:
         response = openai.ChatCompletion.create(
         engine='gpt-4',
@@ -242,6 +242,7 @@ def prompt_to_output():
             SELECT filename
             FROM clothing
             WHERE article = ?
+            LIMIT 1
             """,
             (article,)
         )
