@@ -1,0 +1,14 @@
+.upload{
+    display: inline-block;
+    
+}
+
+.logoContainer{
+    display: inline-block;
+    top: 0;
+    left: 0;
+}
+
+.logo{
+    width: 124px;
+}

@@ -1,12 +1,12 @@
 import './App.css';
-import Defaultpage from "./default"
+import Main from "./Main"
 
 import { useState } from 'react';
 
 
 function App() {
   return (
-    <Defaultpage/>
+    <Main/>
   );
 }
 
