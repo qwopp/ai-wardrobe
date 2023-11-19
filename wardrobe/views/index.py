@@ -72,11 +72,13 @@ def show_user(user_url_slug):
     logname = flask.session.get('username')
     if 'username' not in flask.session:
         return flask.redirect(flask.url_for('show_login'))
+    if logname != user_url_slug:
+        # causes users to not be able to look at other peoples clothes
+        return flask.redirect(flask.url_for('show_index'))
     connection = wardrobe.model.get_db()
     user_info = get_user_info(connection, user_url_slug)
     if user_info is None:
         flask.abort(404)
-
     context = {
         "user_info": user_info,
         "logname": logname,

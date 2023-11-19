@@ -84,42 +84,42 @@ def get_api():
 
 @wardrobe.app.route('/api/v1/clothing/', methods=["GET"])
 def get_clothing():
-    """Return the clothes stored on logged in users account."""
+    """Return the clothes stored on the logged-in user's account."""
     logname = check_logged()
     if logname == "notloggedin":
         print("NOT LOGGED IN")
         return not_logged()
+    
     size = flask.request.args.get('size', default=10, type=int)
     page = flask.request.args.get('page', default=0, type=int)
-    m_r = get_most_recent_clothesid(logname)
-    clothesid_lte = flask.request.args.get('clothesid_lte', default=m_r, type=int)
-    newp2 = flask.request.full_path
-    if newp2.endswith('?'):
-        newp2 = newp2[:-1]
-    if size <= 0 or page < 0 or clothesid_lte < 0:
+    clothesid_lte = flask.request.args.get('clothesid_lte')
+    
+    if size <= 0 or page < 0 or (clothesid_lte is not None and clothesid_lte < 0):
         context = {
             "message": "Bad Request",
             "status_code": 400
         }
         return flask.jsonify(**context), 400
+
     connection = wardrobe.model.get_db()
     cur = connection.execute(
         """
         SELECT clothing.clothesid
         FROM clothing
-        INNER JOIN users ON clothing.owner = users.username
         WHERE clothing.owner = ?
-        AND clothing.clothesid <= ?
+        AND (clothing.clothesid <= ? OR ? IS NULL)
         ORDER BY clothing.clothesid DESC
         LIMIT ? OFFSET ?
         """,
-        (logname, logname, clothesid_lte, size, page * size),
+        (logname, clothesid_lte, clothesid_lte, size, page * size),
     )
     clothes_ids = cur.fetchall()
+    
     next_page_url = ""
     if len(clothes_ids) >= size:
         npu = "/api/v1/clothing/?size={}&page={}&clothesid_lte={}"
-        next_page_url = npu.format(size, page + 1, clothesid_lte)
+        next_page_url = npu.format(size, page + 1, clothes_ids[-1]['clothesid'])
+    
     response = {
         "next": next_page_url,
         "results": [
@@ -127,9 +127,10 @@ def get_clothing():
              "url": f"/api/v1/clothing/{clothes_id['clothesid']}/"}
             for clothes_id in clothes_ids
         ],
-        "url": newp2,
+        "url": flask.request.full_path,
     }
     return flask.jsonify(**response)
+
 
 
 @wardrobe.app.route('/api/v1/clothes/<int:clothesid_url_slug>/', methods=["GET"])
