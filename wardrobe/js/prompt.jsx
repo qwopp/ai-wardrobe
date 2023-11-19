@@ -1,4 +1,3 @@
-// prompt.jsx
 import React, { useState } from "react";
 
 const promptContainerStyle = {
@@ -46,9 +45,8 @@ export default function Prompt() {
       </button>
 
       <div>
-        {imageUrls.map((imageUrl, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <img key={index} src={imageUrl} alt="" />
+        {imageUrls.map((imageUrl) => (
+          <img key={imageUrl} src={imageUrl} alt="" width="100" height="100" />
         ))}
       </div>
     </div>

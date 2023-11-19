@@ -165,15 +165,16 @@ def prompt_to_output():
         (logname,),
     )
     dats2 = cur.fetchall()
-    dats_prompt = "I Have "
-    gpt_prompt = "Using the list given, output me an outfit based off of this sentence: (" + prompt +  ") and only give me the required pieces in curly brackets seperated by commas without saying anything at the beginning and ordering from head to toe"
+    dats_prompt = "List of clothing in closet: "
+    gpt_prompt = "Using the list given, give me an outfit based off of the following prompt: (" + prompt +  "). You should only return the required pieces of the outfit. You should only include 1 shirt maximum, and 1 shorts maximum. The output should be sorted from head to toe, separated by commas with spaces after the commas. You should under no circumstance include text before or after the outfit."
     gbt_output = ""
     #print(dats2)
     for x in dats2:
         dats_prompt += x['article'] + ","
+    #print(dats_prompt)
+    #print(gpt_prompt)
     print(dats_prompt)
     print(gpt_prompt)
-    
     try:
         response = openai.ChatCompletion.create(
         engine='gpt-4',
@@ -184,8 +185,10 @@ def prompt_to_output():
     )
         
         gbt_output = response['choices'][0]['message']['content']
+        print(gbt_output)
         # Parse GPT output
-        gbt_output = gbt_output[1:-1].split(", ")
+        gbt_output = gbt_output.split(",")
+        gbt_output = [item.strip() for item in gbt_output]
     except openai.error.APIError as e:
         # Handle API error here, e.g. retry or log
         print(f"OpenAI API returned an API Error: {e}")
@@ -218,7 +221,7 @@ def prompt_to_output():
         # Handles all other exceptions
         print("An exception has occured.")
     # print(prompt)
-    print(gbt_output)
+    #print(gbt_output)
     # print(dats2)
     # Combine articles + prompt input into GPT submission
 
@@ -229,18 +232,35 @@ def prompt_to_output():
     # GET JSON which is a list of fileImages.
 
     # Send JSON of outfit back to React side!
+    # make a dictionary of all the imagefiles 
+    print(gbt_output)
+    connection = wardrobe.model.get_db()
+    file_image_data = {}
+    for article in gbt_output:
+        cur = connection.execute(
+            """
+            SELECT filename
+            FROM clothing
+            WHERE article = ?
+            """,
+            (article,)
+        )
+        files = cur.fetchall()
+        file_image_data[article] = [file_data['filename'] for file_data in files]
+    # Arrange filenames in the order of articles in gbt_output
+    # ... (previous code remains unchanged)
 
+    # Arrange filenames in the order of articles in gbt_output
+    ordered_file_image_data = [file_image_data[article] for article in gbt_output]
 
+    # Flatten the list of lists and prepend '/uploads/' to each filename
+    ordered_file_image_data_flat = [f"/uploads/{filename}" for sublist in ordered_file_image_data for filename in sublist]
 
-    image_files = [
-        "https://example.com/image1.jpg",
-        "https://example.com/image2.jpg",
-        # ... more image URLs
-    ]
     response_data = {
-            "imageFiles": image_files
-        }
+        "imageFiles": ordered_file_image_data_flat
+    }
     return flask.jsonify(response_data), 200
+
 
 
 
