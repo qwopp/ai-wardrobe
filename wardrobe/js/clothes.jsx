@@ -6,6 +6,7 @@ const containerStyle = {
   flexWrap: "wrap",
   justifyContent: "space-between",
   gap: "20px",
+  width: "66.66%",
 };
 
 const itemStyle = {

@@ -1,6 +1,7 @@
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import Clothes from "./clothes";
+import Prompt from "./prompt";
 
 // Create a root
 const root = createRoot(document.getElementById("reactEntry"));
@@ -9,6 +10,9 @@ const root = createRoot(document.getElementById("reactEntry"));
 // Insert the post component into the DOM
 root.render(
   <StrictMode>
-    <Clothes />
+    <div style={{ display: "flex", width: "100%" }}>
+      <Clothes />
+      <Prompt />
+    </div>
   </StrictMode>
 );
